@@ -11,41 +11,39 @@ L.Control.ZoomMin = L.Control.Zoom.extend({
 
   onAdd: function (map) {
     var zoomName = "leaflet-control-zoom"
-      , container = L.DomUtil.create("div", zoomName + " leaflet-bar")
-      , options = this.options
+        , container = L.DomUtil.create("div", zoomName + " leaflet-bar")
+        , options = this.options;
 
-    this._map = map
+    this._map = map;
 
     this._zoomInButton = this._createButton(options.zoomInText, options.zoomInTitle,
-     zoomName + '-in', container, this._zoomIn, this)
+        zoomName + '-in', container, this._zoomIn, this);
 
     this._zoomOutButton = this._createButton(options.zoomOutText, options.zoomOutTitle,
-     zoomName + '-out', container, this._zoomOut, this)
+        zoomName + '-out', container, this._zoomOut, this);
 
     this._zoomMinButton = this._createButton(options.zoomMinText, options.zoomMinTitle,
-     zoomName + '-min', container, this._zoomMin, this)
+        zoomName + '-min', container, this._zoomMin, this);
 
-    this._updateDisabled()
-    map.on('zoomend zoomlevelschange', this._updateDisabled, this)
+    this._updateDisabled();
+    map.on('zoomend zoomlevelschange', this._updateDisabled, this);
 
     return container
   },
 
   _zoomMin: function () {
-    if (this.options.minBounds) {
-      return this._map.fitBounds(this.options.minBounds);
-    }
-
-    this._map.setZoom(this._map.getMinZoom())
+    this._map.setView([23.079, 3.515], 3, {animation: true});
+    //setZoom(3).center([18, 0.0]);
+    //this._map.setZoom(this._map.getMinZoom())
   },
 
   _updateDisabled: function () {
     var map = this._map
-      , className = "leaflet-disabled"
+        , className = "leaflet-disabled";
 
-    L.DomUtil.removeClass(this._zoomInButton, className)
-    L.DomUtil.removeClass(this._zoomOutButton, className)
-    L.DomUtil.removeClass(this._zoomMinButton, className)
+    L.DomUtil.removeClass(this._zoomInButton, className);
+    L.DomUtil.removeClass(this._zoomOutButton, className);
+    L.DomUtil.removeClass(this._zoomMinButton, className);
 
     if (map._zoom === map.getMinZoom()) {
       L.DomUtil.addClass(this._zoomOutButton, className)
@@ -59,4 +57,5 @@ L.Control.ZoomMin = L.Control.Zoom.extend({
       L.DomUtil.addClass(this._zoomMinButton, className)
     }
   }
-})
+});
+
